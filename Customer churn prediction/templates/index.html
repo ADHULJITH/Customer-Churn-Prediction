@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RetainIQ — Customer Retention Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════
+   THEME VARIABLES
+═══════════════════════════════════════════════ */
+:root {
+  --transition-theme: background 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+[data-theme="light"] {
+  --bg:          #f5f3ef;
+  --bg2:         #faf9f6;
+  --surface:     #ffffff;
+  --surface2:    #f5f3ef;
+  --border:      #e2ddd6;
+  --border2:     #ede9e2;
+  --ink:         #1a1814;
+  --ink2:        #2d2a24;
+  --stone:       #6b6560;
+  --mist:        #a8a39c;
+  --shadow-sm:   0 1px 3px rgba(26,24,20,0.07), 0 1px 2px rgba(26,24,20,0.04);
+  --shadow-md:   0 4px 20px rgba(26,24,20,0.09), 0 2px 6px rgba(26,24,20,0.05);
+  --shadow-lg:   0 12px 48px rgba(26,24,20,0.12), 0 4px 14px rgba(26,24,20,0.06);
+  --topbar-bg:   #ffffff;
+  --hero-bg:     #ffffff;
+  --strip-bg:    #1a1814;
+  --strip-text:  rgba(255,255,255,0.45);
+  --strip-head:  #ffffff;
+  --green:       #1a6b4a;
+  --green-bg:    #e8f5ef;
+  --green-mid:   #2a9d6e;
+  --amber:       #b85c00;
+  --amber-bg:    #fef3e2;
+  --red:         #b91c1c;
+  --red-bg:      #fef2f2;
+  --fc-head-bg:  #f5f3ef;
+  --toggle-off:  #f5f3ef;
+  --toggle-knob: #ffffff;
+}
+
+[data-theme="dark"] {
+  --bg:          #0e0e12;
+  --bg2:         #13131a;
+  --surface:     #18181f;
+  --surface2:    #1e1e28;
+  --border:      rgba(255,255,255,0.08);
+  --border2:     rgba(255,255,255,0.05);
+  --ink:         #f0f0f8;
+  --ink2:        #d4d4e8;
+  --stone:       #8888b0;
+  --mist:        #55557a;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md:   0 4px 20px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.25);
+  --shadow-lg:   0 12px 48px rgba(0,0,0,0.5);
+  --topbar-bg:   #18181f;
+  --hero-bg:     #13131a;
+  --strip-bg:    #0e0e12;
+  --strip-text:  rgba(255,255,255,0.3);
+  --strip-head:  #f0f0f8;
+  --green:       #34d399;
+  --green-bg:    rgba(52,211,153,0.1);
+  --green-mid:   #34d399;
+  --amber:       #fbbf24;
+  --amber-bg:    rgba(251,191,36,0.1);
+  --red:         #f87171;
+  --red-bg:      rgba(248,113,113,0.1);
+  --fc-head-bg:  #1e1e28;
+  --toggle-off:  #2a2a38;
+  --toggle-knob: #ffffff;
+}
+
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px; line-height: 1.6;
+  transition: var(--transition-theme);
+  min-height: 100vh;
+}
+::selection { background: var(--green); color: #fff; }
+
+/* ═══════════════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════════════ */
+.topbar {
+  background: var(--topbar-bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-theme);
+}
+.topbar-inner {
+  max-width: 1180px; margin: 0 auto; padding: 0 32px;
+  height: 64px; display: flex; align-items: center; justify-content: space-between;
+}
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-icon {
+  width: 38px; height: 38px; border-radius: 11px;
+  background: var(--ink); color: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  transition: background 0.35s, color 0.35s;
+}
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em;
+  color: var(--ink); transition: color 0.35s;
+}
+.brand-sub {
+  font-size: 0.68rem; color: var(--mist); letter-spacing: 0.04em;
+  text-transform: uppercase; margin-top: -1px; transition: color 0.35s;
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle-wrap {
+  display: flex; align-items: center; gap: 10px;
+}
+.theme-label {
+  font-size: 0.72rem; font-weight: 600; color: var(--stone);
+  letter-spacing: 0.05em; text-transform: uppercase;
+  transition: color 0.35s;
+}
+.theme-switch {
+  position: relative; width: 52px; height: 28px; cursor: pointer;
+}
+.theme-switch input { opacity: 0; width: 0; height: 0; }
+.ts-track {
+  position: absolute; inset: 0; border-radius: 100px;
+  background: var(--toggle-off); border: 1.5px solid var(--border);
+  transition: background 0.35s, border-color 0.35s;
+}
+[data-theme="dark"] .ts-track { background: #2d2d45; border-color: rgba(255,255,255,0.12); }
+.ts-knob {
+  position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), background 0.35s;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+}
+input:checked ~ .ts-knob { transform: translateX(24px); }
+.nav-badge {
+  background: var(--green-bg); color: var(--green);
+  border: 1px solid rgba(26,107,74,0.2); border-radius: 20px;
+  padding: 4px 12px; font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.03em; transition: var(--transition-theme);
+}
+[data-theme="dark"] .nav-badge { border-color: rgba(52,211,153,0.2); }
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.hero {
+  background: var(--hero-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 64px 0 52px;
+  position: relative; overflow: hidden;
+  transition: var(--transition-theme);
+}
+.hero::before {
+  content: ''; position: absolute;
+  right: -100px; top: -80px; width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(26,107,74,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  transition: background 0.35s;
+}
+[data-theme="dark"] .hero::before {
+  background: radial-gradient(circle, rgba(52,211,153,0.07) 0%, transparent 70%);
+}
+.hero::after {
+  content: ''; position: absolute;
+  left: -50px; bottom: -80px; width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(184,92,0,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 1180px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--green-bg); color: var(--green);
+  border: 1px solid rgba(26,107,74,0.2); border-radius: 4px;
+  padding: 5px 14px; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px;
+  transition: var(--transition-theme);
+}
+[data-theme="dark"] .hero-kicker { border-color: rgba(52,211,153,0.2); }
+.kicker-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); animation: blink 2s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 700; letter-spacing: -0.02em;
+  line-height: 1.1; color: var(--ink); margin-bottom: 16px; max-width: 700px;
+  transition: color 0.35s;
+}
+.hero h1 em { font-style: italic; color: var(--green); }
+.hero-sub {
+  font-size: 1.05rem; color: var(--stone); max-width: 560px;
+  line-height: 1.75; margin-bottom: 32px; font-weight: 400;
+  transition: color 0.35s;
+}
+.hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+.hs { border-left: 3px solid var(--border); padding-left: 16px; transition: border-color 0.35s; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 700; color: var(--ink); line-height: 1;
+  transition: color 0.35s;
+}
+.hs-lbl { font-size: 0.74rem; color: var(--mist); margin-top: 3px; letter-spacing: 0.03em; transition: color 0.35s; }
+
+/* ═══════════════════════════════════════════════
+   INSIGHT STRIP
+═══════════════════════════════════════════════ */
+.strip {
+  background: var(--strip-bg);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.35s;
+}
+.strip-inner {
+  max-width: 1180px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.st {
+  padding: 24px 26px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  position: relative; transition: background 0.25s;
+  cursor: default;
+}
+.st:last-child { border-right: none; }
+.st::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--green-mid); transform: scaleX(0);
+  transition: transform 0.3s ease; transform-origin: left;
+}
+.st:hover { background: rgba(255,255,255,0.03); }
+.st:hover::after { transform: scaleX(1); }
+.st-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem; font-weight: 700;
+  color: var(--strip-head); line-height: 1; margin-bottom: 4px;
+}
+.st-num span { font-size: 1rem; color: var(--green-mid); }
+.st-lbl { font-size: 0.7rem; color: var(--strip-text); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
+.st-desc { font-size: 0.76rem; color: rgba(255,255,255,0.45); line-height: 1.5; }
+[data-theme="dark"] .st-desc { color: rgba(255,255,255,0.35); }
+
+/* ═══════════════════════════════════════════════
+   MAIN WRAPPER
+═══════════════════════════════════════════════ */
+.main { max-width: 1180px; margin: 0 auto; padding: 52px 32px 80px; }
+
+.section-intro {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 24px; margin-bottom: 36px; flex-wrap: wrap;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem; font-weight: 700;
+  letter-spacing: -0.02em; color: var(--ink); transition: color 0.35s;
+}
+.section-sub { font-size: 0.88rem; color: var(--stone); margin-top: 4px; line-height: 1.6; transition: color 0.35s; }
+.step-count {
+  background: var(--ink); color: var(--bg);
+  border-radius: 8px; padding: 8px 18px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  white-space: nowrap; align-self: flex-start; margin-top: 4px;
+  transition: var(--transition-theme);
+}
+
+/* ═══════════════════════════════════════════════
+   FORM CARDS
+═══════════════════════════════════════════════ */
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: var(--transition-theme);
+}
+.fc-head {
+  padding: 18px 26px;
+  border-bottom: 1px solid var(--border2);
+  display: flex; align-items: center; gap: 14px;
+  background: var(--fc-head-bg);
+  transition: var(--transition-theme);
+}
+.fc-step {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--ink); color: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 700; flex-shrink: 0;
+  transition: var(--transition-theme);
+}
+.fc-title { font-size: 0.95rem; font-weight: 700; color: var(--ink); transition: color 0.35s; }
+.fc-desc { font-size: 0.78rem; color: var(--stone); margin-top: 1px; transition: color 0.35s; }
+.fc-body { padding: 22px 26px; }
+
+/* ═══════════════════════════════════════════════
+   FIELDS
+═══════════════════════════════════════════════ */
+.fg { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 14px; }
+.fg2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.fg3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media(max-width:600px) { .fg,.fg2,.fg3 { grid-template-columns: 1fr 1fr; } }
+@media(max-width:400px) { .fg,.fg2,.fg3 { grid-template-columns: 1fr; } }
+
+.f { display: flex; flex-direction: column; gap: 6px; }
+.f label {
+  font-size: 0.7rem; font-weight: 700; color: var(--stone);
+  letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.35s;
+}
+.f input, .f select {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 10px 13px;
+  color: var(--ink); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem;
+  outline: none; width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s, color 0.35s;
+  -webkit-appearance: none;
+}
+.f input:hover, .f select:hover { border-color: var(--stone); }
+.f input:focus, .f select:focus {
+  border-color: var(--green);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(26,107,74,0.1);
+}
+[data-theme="dark"] .f input:focus, [data-theme="dark"] .f select:focus {
+  box-shadow: 0 0 0 3px rgba(52,211,153,0.12);
+}
+.f select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23a8a39c' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 13px center;
+  padding-right: 34px; cursor: pointer;
+}
+.f select option { background: var(--surface); color: var(--ink); }
+
+/* ── TOGGLE PILLS ── */
+.toggle-row { display: flex; gap: 6px; }
+.tog {
+  flex: 1; border: 1.5px solid var(--border); border-radius: 9px;
+  padding: 9px 8px; text-align: center;
+  font-size: 0.82rem; font-weight: 600; color: var(--stone);
+  cursor: pointer; transition: all 0.18s; user-select: none;
+  background: var(--surface2);
+}
+.tog:hover { border-color: var(--stone); color: var(--ink); }
+.tog.active {
+  border-color: var(--green); background: var(--green-bg); color: var(--green);
+}
+
+/* ── SUBDIVIDER ── */
+.sub-div {
+  display: flex; align-items: center; gap: 10px; margin: 22px 0 16px;
+}
+.sub-div-lbl {
+  font-size: 0.68rem; font-weight: 700; color: var(--mist);
+  letter-spacing: 0.09em; text-transform: uppercase; white-space: nowrap;
+  transition: color 0.35s;
+}
+.sub-div-line { flex: 1; height: 1px; background: var(--border2); transition: background 0.35s; }
+
+/* ═══════════════════════════════════════════════
+   SERVICE ROWS — Yes / No option design
+═══════════════════════════════════════════════ */
+.svc-list {
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.svc-row {
+  display: flex; align-items: center;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  gap: 14px;
+  transition: border-color 0.22s, background 0.22s, box-shadow 0.22s, var(--transition-theme);
+}
+.svc-row:hover { border-color: var(--stone); box-shadow: var(--shadow-sm); }
+.svc-row.yes-active {
+  border-color: var(--green);
+  background: var(--green-bg);
+  box-shadow: 0 2px 14px rgba(26,107,74,0.1);
+}
+[data-theme="dark"] .svc-row.yes-active {
+  box-shadow: 0 2px 14px rgba(52,211,153,0.1);
+}
+.svc-row.no-active {
+  border-color: var(--border);
+  background: var(--surface2);
+}
+
+/* Left icon bubble */
+.svc-icon-bubble {
+  width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+  background: var(--surface); border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px;
+  transition: all 0.22s;
+}
+.svc-row.yes-active .svc-icon-bubble {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(26,107,74,0.25);
+  box-shadow: 0 2px 8px rgba(26,107,74,0.15);
+}
+[data-theme="dark"] .svc-row.yes-active .svc-icon-bubble {
+  background: rgba(52,211,153,0.12);
+  border-color: rgba(52,211,153,0.25);
+  box-shadow: none;
+}
+
+/* Middle text */
+.svc-info { flex: 1; min-width: 0; }
+.svc-info-name {
+  font-size: 0.85rem; font-weight: 700; color: var(--ink);
+  transition: color 0.22s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.svc-row.yes-active .svc-info-name { color: var(--green); }
+.svc-info-desc {
+  font-size: 0.72rem; color: var(--stone); line-height: 1.4; margin-top: 2px;
+  transition: color 0.22s;
+}
+[data-theme="dark"] .svc-row.yes-active .svc-info-desc { color: rgba(52,211,153,0.65); }
+
+/* Category pill */
+.svc-cat {
+  display: none; /* hidden on mobile, shown on wider */
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--mist);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 3px 9px;
+  white-space: nowrap; flex-shrink: 0;
+  transition: all 0.22s;
+}
+.svc-row.yes-active .svc-cat {
+  color: var(--green); background: rgba(26,107,74,0.1); border-color: rgba(26,107,74,0.2);
+}
+[data-theme="dark"] .svc-row.yes-active .svc-cat {
+  background: rgba(52,211,153,0.1); border-color: rgba(52,211,153,0.2);
+}
+@media(min-width:560px) { .svc-cat { display: inline-flex; } }
+
+/* Yes / No pill pair */
+.svc-yn {
+  display: flex; flex-shrink: 0;
+  border: 1.5px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  transition: border-color 0.22s;
+}
+.svc-row.yes-active .svc-yn { border-color: var(--green); }
+
+.yn-btn {
+  padding: 6px 16px;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em;
+  cursor: pointer; user-select: none;
+  transition: background 0.2s, color 0.2s;
+  background: var(--surface2); color: var(--mist);
+  border: none; outline: none;
+}
+.yn-btn + .yn-btn {
+  border-left: 1.5px solid var(--border);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.svc-row.yes-active .yn-btn + .yn-btn { border-left-color: var(--green); }
+
+.yn-btn.yn-yes.active {
+  background: var(--green); color: #fff;
+}
+[data-theme="dark"] .yn-btn.yn-yes.active {
+  background: var(--green); color: var(--bg);
+}
+.yn-btn.yn-no.active {
+  background: var(--surface2); color: var(--ink);
+}
+.yn-btn:hover:not(.active) { background: var(--bg2); color: var(--ink); }
+
+/* ═══════════════════════════════════════════════
+   SUBMIT BUTTON
+═══════════════════════════════════════════════ */
+.cta-wrap { margin-top: 28px; }
+.btn-submit {
+  width: 100%; padding: 17px 24px;
+  background: var(--ink); color: var(--bg);
+  border: none; border-radius: 13px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1rem; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.01em;
+}
+.btn-submit:hover { background: var(--ink2); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn-submit:active { transform: none; }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-arrow { transition: transform 0.2s; }
+.btn-submit:hover .btn-arrow { transform: translateX(5px); }
+.err-box {
+  background: var(--red-bg); border: 1px solid rgba(185,28,28,0.2);
+  border-radius: 10px; padding: 12px 16px; color: var(--red);
+  font-size: 0.84rem; margin-top: 14px; display: none; line-height: 1.5;
+  transition: var(--transition-theme);
+}
+
+/* ═══════════════════════════════════════════════
+   SPINNER
+═══════════════════════════════════════════════ */
+.spinner {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2.5px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  animation: spin 0.65s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════════
+   RESULT SECTION
+═══════════════════════════════════════════════ */
+#result-section { display: none; margin-top: 10px; }
+#result-section.show {
+  display: block;
+  animation: revealUp 0.5s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes revealUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+.result-divider {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+}
+.rd-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 600; color: var(--ink); white-space: nowrap;
+  transition: color 0.35s;
+}
+.rd-line { flex: 1; height: 1px; background: var(--border); transition: background 0.35s; }
+
+/* Banner */
+.result-banner {
+  border-radius: 20px; padding: 32px 36px; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  position: relative; overflow: hidden;
+}
+.result-banner::before {
+  content: ''; position: absolute; right: -40px; top: -40px;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 65%);
+}
+.rb-low    { background: linear-gradient(135deg,#1a6b4a,#2a9d6e); }
+.rb-medium { background: linear-gradient(135deg,#b85c00,#d97706); }
+.rb-high   { background: linear-gradient(135deg,#991b1b,#dc2626); }
+[data-theme="dark"] .rb-low    { background: linear-gradient(135deg,#065f46,#059669); }
+[data-theme="dark"] .rb-medium { background: linear-gradient(135deg,#92400e,#d97706); }
+[data-theme="dark"] .rb-high   { background: linear-gradient(135deg,#7f1d1d,#dc2626); }
+
+.rb-icon {
+  width: 72px; height: 72px; border-radius: 18px;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; flex-shrink: 0;
+}
+.rb-info { flex: 1; min-width: 200px; }
+.rb-kicker { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 5px; color: white; }
+.rb-title { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: white; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px; }
+.rb-msg { font-size: 0.88rem; color: rgba(255,255,255,0.82); line-height: 1.65; max-width: 480px; }
+.rb-score-box {
+  flex-shrink: 0; text-align: center;
+  background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px; padding: 18px 26px;
+}
+.rb-score-num { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 700; color: white; line-height: 1; }
+.rb-score-lbl { font-size: 0.66rem; color: rgba(255,255,255,0.6); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
+
+/* Insight Cards */
+.insight-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 20px; }
+@media(max-width:700px) { .insight-cards { grid-template-columns:1fr; } }
+.ic {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px; box-shadow: var(--shadow-sm);
+  position: relative; overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, var(--transition-theme);
+}
+.ic:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.ic-stripe { position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 2px 2px 0 0; }
+.ic-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+.ic-lbl { font-size: 0.7rem; font-weight: 700; color: var(--stone); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 5px; transition: color 0.35s; }
+.ic-val { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 6px; transition: color 0.35s; }
+.ic-note { font-size: 0.77rem; color: var(--stone); line-height: 1.5; transition: color 0.35s; }
+
+/* Recommendations */
+.recs-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 26px; box-shadow: var(--shadow-sm);
+  margin-bottom: 20px; transition: var(--transition-theme);
+}
+.card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.card-head-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: var(--surface2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+  transition: var(--transition-theme);
+}
+.card-head-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--ink); transition: color 0.35s; }
+.card-head-sub { font-size: 0.78rem; color: var(--stone); margin-top: 1px; transition: color 0.35s; }
+.rec-list { display: flex; flex-direction: column; gap: 10px; }
+.rec-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: 12px; padding: 14px 16px;
+  transition: border-color 0.2s, var(--transition-theme);
+}
+.rec-item:hover { border-color: var(--stone); }
+.rec-num {
+  min-width: 28px; height: 28px; border-radius: 8px;
+  background: var(--ink); color: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  transition: var(--transition-theme);
+}
+.rec-title { font-size: 0.88rem; font-weight: 700; color: var(--ink); margin-bottom: 3px; transition: color 0.35s; }
+.rec-desc { font-size: 0.78rem; color: var(--stone); line-height: 1.55; transition: color 0.35s; }
+
+/* Breakdown */
+.breakdown-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 26px; box-shadow: var(--shadow-sm);
+  transition: var(--transition-theme);
+}
+.bk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media(max-width:580px) { .bk-grid { grid-template-columns: 1fr; } }
+.bk-item {
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: 12px; padding: 14px 16px;
+  transition: var(--transition-theme);
+}
+.bk-lbl { font-size: 0.68rem; font-weight: 700; color: var(--mist); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 10px; transition: color 0.35s; }
+.bk-track { height: 6px; background: var(--border); border-radius: 100px; margin-bottom: 8px; overflow: hidden; transition: background 0.35s; }
+.bk-fill { height: 100%; border-radius: 100px; transition: width 1.3s cubic-bezier(.4,0,.2,1); }
+.bk-row { display: flex; justify-content: space-between; align-items: center; }
+.bk-name { font-size: 0.8rem; color: var(--ink2); font-weight: 500; transition: color 0.35s; }
+.bk-badge { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; letter-spacing: 0.03em; }
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer {
+  background: var(--strip-bg);
+  color: rgba(255,255,255,0.35);
+  text-align: center; padding: 28px 32px;
+  font-size: 0.77rem; letter-spacing: 0.04em;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.35s;
+}
+footer strong { color: rgba(255,255,255,0.65); }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media(max-width:640px) {
+  .topbar-inner { padding: 0 18px; }
+  .hero-inner, .main { padding-left: 18px; padding-right: 18px; }
+  .hero { padding: 40px 0 32px; }
+  .result-banner { padding: 22px 18px; }
+  .rb-score-box { padding: 14px 20px; }
+  .rb-score-num { font-size: 2.2rem; }
+  .strip-inner { grid-template-columns: 1fr 1fr; }
+  .st { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .st:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.08); }
+  .st:last-child, .st:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+  .theme-label { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── TOP NAV ─── -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="brand">
+      <div class="brand-icon">🔍</div>
+      <div>
+        <div class="brand-name">RetainIQ</div>
+        <div class="brand-sub">Retention Intelligence</div>
+      </div>
+    </a>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span class="nav-badge">✦ Live Prediction</span>
+      <div class="theme-toggle-wrap">
+        <span class="theme-label" id="theme-lbl">Light</span>
+        <label class="theme-switch" title="Toggle dark/light mode">
+          <input type="checkbox" id="theme-checkbox"/>
+          <div class="ts-track"></div>
+          <div class="ts-knob" id="ts-knob">☀️</div>
+        </label>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker"><span class="kicker-dot"></span> Retention Intelligence Platform</div>
+    <h1>Know Which Customers<br/>Are About to <em>Leave</em></h1>
+    <p class="hero-sub">Answer a few questions about your customer and instantly receive a clear risk assessment, personalised retention insights, and actionable recommendations to reduce churn.</p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-val">26%</div><div class="hs-lbl">Avg industry churn rate</div></div>
+      <div class="hs"><div class="hs-val">5–25×</div><div class="hs-lbl">Cost to acquire vs. retain</div></div>
+      <div class="hs"><div class="hs-val">67%</div><div class="hs-lbl">Churn is preventable early</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── MAIN ─── -->
+<main class="main">
+  <div class="section-intro">
+    <div>
+      <div class="section-title">Customer Profile Assessment</div>
+      <div class="section-sub">Fill in your customer's details to generate their personalised retention report.</div>
+    </div>
+    <div class="step-count">3 sections · 2 min</div>
+  </div>
+
+  <form id="predict-form">
+
+    <!-- ── SECTION 1: Demographics ── -->
+    <div class="form-card">
+      <div class="fc-head">
+        <div class="fc-step">1</div>
+        <div>
+          <div class="fc-title">Who is this customer?</div>
+          <div class="fc-desc">Demographics help surface retention patterns across customer segments.</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <div class="fg">
+          <div class="f">
+            <label>Gender</label>
+            <select name="gender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="f">
+            <label>Senior Citizen (65+)?</label>
+            <div class="toggle-row" data-bind="SeniorCitizen">
+              <div class="tog active" data-val="0">No</div>
+              <div class="tog" data-val="1">Yes</div>
+            </div>
+            <input type="hidden" name="SeniorCitizen" value="0"/>
+          </div>
+          <div class="f">
+            <label>Has a Partner?</label>
+            <div class="toggle-row" data-bind="Partner">
+              <div class="tog active" data-val="Yes">Yes</div>
+              <div class="tog" data-val="No">No</div>
+            </div>
+            <input type="hidden" name="Partner" value="Yes"/>
+          </div>
+          <div class="f">
+            <label>Has Dependents?</label>
+            <div class="toggle-row" data-bind="Dependents">
+              <div class="tog active" data-val="No">No</div>
+              <div class="tog" data-val="Yes">Yes</div>
+            </div>
+            <input type="hidden" name="Dependents" value="No"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 2: Account & Billing ── -->
+    <div class="form-card">
+      <div class="fc-head">
+        <div class="fc-step">2</div>
+        <div>
+          <div class="fc-title">Account & Billing Details</div>
+          <div class="fc-desc">Contract type, tenure and billing behaviour are the strongest churn predictors.</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <div class="fg3">
+          <div class="f">
+            <label>Months as Customer</label>
+            <input type="number" name="tenure" value="12" min="0" max="72" placeholder="e.g. 12"/>
+          </div>
+          <div class="f">
+            <label>Monthly Bill ($)</label>
+            <input type="number" name="MonthlyCharges" value="65.00" step="0.01" min="0"/>
+          </div>
+          <div class="f">
+            <label>Total Billed to Date ($)</label>
+            <input type="number" name="TotalCharges" value="780.00" step="0.01" min="0"/>
+          </div>
+        </div>
+        <div class="sub-div"><span class="sub-div-lbl">Contract & Payment</span><span class="sub-div-line"></span></div>
+        <div class="fg3">
+          <div class="f">
+            <label>Contract Length</label>
+            <select name="Contract">
+              <option value="Month-to-month">Month-to-month</option>
+              <option value="One year">One Year</option>
+              <option value="Two year">Two Years</option>
+            </select>
+          </div>
+          <div class="f">
+            <label>Payment Method</label>
+            <select name="PaymentMethod">
+              <option value="Electronic check">Electronic Check</option>
+              <option value="Mailed check">Mailed Check</option>
+              <option value="Bank transfer (automatic)">Bank Transfer (Auto)</option>
+              <option value="Credit card (automatic)">Credit Card (Auto)</option>
+            </select>
+          </div>
+          <div class="f">
+            <label>Paperless Billing?</label>
+            <div class="toggle-row" data-bind="PaperlessBilling">
+              <div class="tog active" data-val="Yes">Yes</div>
+              <div class="tog" data-val="No">No</div>
+            </div>
+            <input type="hidden" name="PaperlessBilling" value="Yes"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 3: Services ── -->
+    <div class="form-card">
+      <div class="fc-head">
+        <div class="fc-step">3</div>
+        <div>
+          <div class="fc-title">Services & Add-ons</div>
+          <div class="fc-desc">Customers with fewer services have less to lose — and are more likely to switch.</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <div class="sub-div"><span class="sub-div-lbl">Core Connectivity</span><span class="sub-div-line"></span></div>
+        <div class="fg3" style="margin-bottom:4px">
+          <div class="f">
+            <label>Phone Service</label>
+            <select name="PhoneService">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div class="f">
+            <label>Multiple Lines</label>
+            <select name="MultipleLines">
+              <option value="No">Single Line</option>
+              <option value="Yes">Multiple Lines</option>
+              <option value="No phone service">No Phone Service</option>
+            </select>
+          </div>
+          <div class="f">
+            <label>Internet Service</label>
+            <select name="InternetService">
+              <option value="Fiber optic">Fiber Optic</option>
+              <option value="DSL">DSL</option>
+              <option value="No">None</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sub-div" style="margin-top:26px"><span class="sub-div-lbl">Value-Add Services</span><span class="sub-div-line"></span></div>
+        <p style="font-size:0.78rem;color:var(--stone);margin-bottom:16px;transition:color 0.35s">
+          Select <strong style="color:var(--ink)">Yes</strong> or <strong style="color:var(--ink)">No</strong> for each service this customer currently has active.
+        </p>
+
+        <!-- ★ BEAUTIFUL YES/NO SERVICE ROWS ★ -->
+        <div class="svc-list" id="svc-list">
+
+          <div class="svc-row no-active" id="row-OnlineSecurity">
+            <div class="svc-icon-bubble">🔒</div>
+            <div class="svc-info">
+              <div class="svc-info-name">Online Security</div>
+              <div class="svc-info-desc">Protects accounts from threats &amp; data breaches</div>
+            </div>
+            <span class="svc-cat">Security</span>
+            <div class="svc-yn">
+              <button type="button" class="yn-btn yn-no active"  data-field="OnlineSecurity" data-val="No">No</button>
+              <button type="button" class="yn-btn yn-yes"        data-field="OnlineSecurity" data-val="Yes">Yes</button>
+            </div>
+            <input type="hidden" name="OnlineSecurity" id="h-OnlineSecurity" value="No"/>
+          </div>
+
+          <div class="svc-row no-active" id="row-OnlineBackup">
+            <div class="svc-icon-bubble">☁️</div>
+            <div class="svc-info">
+              <div class="svc-info-name">Cloud Backup</div>
+              <div class="svc-info-desc">Automatic daily backups stored securely in the cloud</div>
+            </div>
+            <span class="svc-cat">Storage</span>
+            <div class="svc-yn">
+              <button type="button" class="yn-btn yn-no active"  data-field="OnlineBackup" data-val="No">No</button>
+              <button type="button" class="yn-btn yn-yes"        data-field="OnlineBackup" data-val="Yes">Yes</button>
+            </div>
+            <input type="hidden" name="OnlineBackup" id="h-OnlineBackup" value="No"/>
+          </div>
+
+          <div class="svc-row no-active" id="row-DeviceProtection">
+            <div class="svc-icon-bubble">🛡️</div>
+            <div class="svc-info">
+              <div class="svc-info-name">Device Protection</div>
+              <div class="svc-info-desc">Insurance &amp; repair coverage for all connected devices</div>
+            </div>
+            <span class="svc-cat">Protection</span>
+            <div class="svc-yn">
+              <button type="button" class="yn-btn yn-no active"  data-field="DeviceProtection" data-val="No">No</button>
+              <button type="button" class="yn-btn yn-yes"        data-field="DeviceProtection" data-val="Yes">Yes</button>
+            </div>
+            <input type="hidden" name="DeviceProtection" id="h-DeviceProtection" value="No"/>
+          </div>
+
+          <div class="svc-row no-active" id="row-TechSupport">
+            <div class="svc-icon-bubble">🎧</div>
+            <div class="svc-info">
+              <div class="svc-info-name">Tech Support</div>
+              <div class="svc-info-desc">24/7 priority access to technical support specialists</div>
+            </div>
+            <span class="svc-cat">Support</span>
+            <div class="svc-yn">
+              <button type="button" class="yn-btn yn-no active"  data-field="TechSupport" data-val="No">No</button>
+              <button type="button" class="yn-btn yn-yes"        data-field="TechSupport" data-val="Yes">Yes</button>
+            </div>
+            <input type="hidden" name="TechSupport" id="h-TechSupport" value="No"/>
+          </div>
+
+          <div class="svc-row no-active" id="row-StreamingTV">
+            <div class="svc-icon-bubble">📺</div>
+            <div class="svc-info">
+              <div class="svc-info-name">Streaming TV</div>
+              <div class="svc-info-desc">Live TV channels and on-demand content included</div>
+            </div>
+            <span class="svc-cat">Entertainment</span>
+            <div class="svc-yn">
+              <button type="button" class="yn-btn yn-no active"  data-field="StreamingTV" data-val="No">No</button>
+              <button type="button" class="yn-btn yn-yes"        data-field="StreamingTV" data-val="Yes">Yes</button>
+            </div>
+            <input type="hidden" name="StreamingTV" id="h-StreamingTV" value="No"/>
+          </div>
+
+          <div class="svc-row no-active" id="row-StreamingMovies">
+            <div class="svc-icon-bubble">🎬</div>
+            <div class="svc-info">
+              <div class="svc-info-name">Streaming Movies</div>
+              <div class="svc-info-desc">Thousands of movies and series, ad-free streaming</div>
+            </div>
+            <span class="svc-cat">Entertainment</span>
+            <div class="svc-yn">
+              <button type="button" class="yn-btn yn-no active"  data-field="StreamingMovies" data-val="No">No</button>
+              <button type="button" class="yn-btn yn-yes"        data-field="StreamingMovies" data-val="Yes">Yes</button>
+            </div>
+            <input type="hidden" name="StreamingMovies" id="h-StreamingMovies" value="No"/>
+          </div>
+
+        </div><!-- /svc-list -->
+      </div>
+    </div>
+
+    <div class="cta-wrap">
+      <button type="submit" class="btn-submit" id="submit-btn">
+        Generate Retention Report <span class="btn-arrow">→</span>
+      </button>
+      <div class="err-box" id="err-box"></div>
+    </div>
+  </form>
+
+  <!-- ─── RESULTS ─── -->
+  <div id="result-section">
+
+    <div class="result-divider"><span class="rd-text">Retention Report</span><span class="rd-line"></span></div>
+
+    <!-- Banner -->
+    <div class="result-banner" id="result-banner">
+      <div class="rb-icon" id="rb-icon">📊</div>
+      <div class="rb-info">
+        <div class="rb-kicker" id="rb-kicker">Risk Assessment</div>
+        <div class="rb-title" id="rb-title">—</div>
+        <div class="rb-msg"   id="rb-msg">—</div>
+      </div>
+      <div class="rb-score-box">
+        <div class="rb-score-num" id="rb-score">—</div>
+        <div class="rb-score-lbl">Churn Probability</div>
+      </div>
+    </div>
+
+    <!-- Insight cards -->
+    <div class="insight-cards" id="insight-cards"></div>
+
+    <!-- Recommendations -->
+    <div class="recs-card" id="recs-card">
+      <div class="card-head">
+        <div class="card-head-icon">💡</div>
+        <div>
+          <div class="card-head-title">Recommended Retention Actions</div>
+          <div class="card-head-sub">Personalised steps to improve this customer's loyalty score</div>
+        </div>
+      </div>
+      <div class="rec-list" id="rec-list"></div>
+    </div>
+
+
+  </div><!-- /result-section -->
+</main>
+
+<footer>
+  <strong>RetainIQ</strong> — Customer Retention Intelligence Platform &nbsp;·&nbsp; Powered by machine learning &nbsp;·&nbsp; © 2025
+</footer>
+
+<script>
+/* ════════════════════════════════════════════
+   THEME TOGGLE
+════════════════════════════════════════════ */
+const html       = document.documentElement;
+const checkbox   = document.getElementById('theme-checkbox');
+const knob       = document.getElementById('ts-knob');
+const themeLbl   = document.getElementById('theme-lbl');
+
+// Persist theme
+const savedTheme = localStorage.getItem('riq-theme') || 'light';
+applyTheme(savedTheme);
+if(savedTheme === 'dark') checkbox.checked = true;
+
+checkbox.addEventListener('change', () => {
+  const t = checkbox.checked ? 'dark' : 'light';
+  applyTheme(t);
+  localStorage.setItem('riq-theme', t);
+});
+
+function applyTheme(t) {
+  html.setAttribute('data-theme', t);
+  knob.textContent = t === 'dark' ? '🌙' : '☀️';
+  themeLbl.textContent = t === 'dark' ? 'Dark' : 'Light';
+}
+
+/* ════════════════════════════════════════════
+   TOGGLE PILLS
+════════════════════════════════════════════ */
+document.querySelectorAll('.toggle-row').forEach(row => {
+  const field  = row.dataset.bind;
+  const hidden = document.querySelector(`input[name="${field}"]`);
+  row.querySelectorAll('.tog').forEach(btn => {
+    btn.addEventListener('click', () => {
+      row.querySelectorAll('.tog').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (hidden) hidden.value = btn.dataset.val;
+    });
+  });
+});
+
+/* ════════════════════════════════════════════
+   SERVICE YES / NO ROWS
+════════════════════════════════════════════ */
+document.querySelectorAll('.svc-yn').forEach(yn => {
+  yn.querySelectorAll('.yn-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const field = btn.dataset.field;
+      const val   = btn.dataset.val;
+      // Update hidden input — value sent to Flask
+      document.getElementById('h-' + field).value = val;
+      // Update button active states
+      yn.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // Update row highlight
+      const row = document.getElementById('row-' + field);
+      if (val === 'Yes') {
+        row.classList.remove('no-active');
+        row.classList.add('yes-active');
+      } else {
+        row.classList.remove('yes-active');
+        row.classList.add('no-active');
+      }
+    });
+  });
+});
+
+/* ════════════════════════════════════════════
+   FORM SUBMIT
+════════════════════════════════════════════ */
+const form      = document.getElementById('predict-form');
+const submitBtn = document.getElementById('submit-btn');
+const errBox    = document.getElementById('err-box');
+const resultSec = document.getElementById('result-section');
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  errBox.style.display = 'none';
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = `<div class="spinner"></div> Analysing...`;
+
+  const data = Object.fromEntries(new FormData(form).entries());
+  ['tenure','MonthlyCharges','TotalCharges','SeniorCitizen'].forEach(k => {
+    if (data[k] !== undefined) data[k] = parseFloat(data[k]);
+  });
+
+  try {
+    const res    = await fetch('/predict', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+    const result = await res.json();
+    if (!result.success) throw new Error(result.error || 'Prediction failed');
+    renderResult(result, data);
+  } catch(err) {
+    errBox.textContent = '⚠ ' + err.message;
+    errBox.style.display = 'block';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = `Generate Retention Report <span class="btn-arrow">→</span>`;
+  }
+});
+
+/* ════════════════════════════════════════════
+   RENDER RESULTS
+════════════════════════════════════════════ */
+function renderResult(result, data) {
+  const pct   = result.probability;
+  const churn = result.churn === 1;
+  const risk  = result.risk_level || 'Medium';
+
+  resultSec.classList.remove('show');
+  resultSec.style.display = 'block';
+  void resultSec.offsetWidth;
+  resultSec.classList.add('show');
+  setTimeout(() => resultSec.scrollIntoView({ behavior:'smooth', block:'start' }), 120);
+
+  /* Banner */
+  const banner = document.getElementById('result-banner');
+  banner.className = 'result-banner ' + (risk==='Low' ? 'rb-low' : risk==='High' ? 'rb-high' : 'rb-medium');
+  document.getElementById('rb-icon').textContent  = churn ? '⚠️' : '✅';
+  document.getElementById('rb-kicker').textContent = risk + ' Churn Risk';
+  document.getElementById('rb-title').textContent  = churn ? 'This customer is likely to leave' : 'This customer is likely to stay';
+  document.getElementById('rb-msg').textContent    = result.message || buildMsg(data, pct, churn);
+
+  /* Score count-up */
+  const scoreEl = document.getElementById('rb-score');
+  let cur = 0;
+  const iv = setInterval(() => {
+    cur = Math.min(cur + pct/40, pct);
+    scoreEl.textContent = cur.toFixed(1) + '%';
+    if (cur >= pct) clearInterval(iv);
+  }, 20);
+
+
+
+  /* Recs */
+  const recs = buildRecs(data, churn, risk);
+  const recEl = document.getElementById('rec-list');
+  recEl.innerHTML = '';
+  recs.forEach((r, i) => {
+    const d = document.createElement('div');
+    d.className = 'rec-item';
+    d.innerHTML = `<div class="rec-num">${i+1}</div>
+      <div><div class="rec-title">${r.title}</div><div class="rec-desc">${r.desc}</div></div>`;
+    recEl.appendChild(d);
+  });
+
+}
+
+function buildMsg(d, pct, churn) {
+  const tenure = parseFloat(d.tenure) || 0;
+  const contract = d.Contract || '';
+  if (!churn) return `With ${tenure} months of tenure and a ${contract.toLowerCase()} plan, this customer shows stable engagement. Continue delivering value to sustain loyalty.`;
+  if (pct > 70) return `Several high-risk indicators are present — short tenure, elevated charges, and a flexible contract. Immediate outreach is strongly recommended.`;
+  return `This customer shows moderate churn signals. A proactive offer or service upgrade could meaningfully reduce the risk of switching.`;
+}
+
+
+function buildRecs(d, churn, risk) {
+  const recs = [];
+  const contract = d.Contract || '';
+  const security = document.getElementById('h-OnlineSecurity').value;
+  const techsup  = document.getElementById('h-TechSupport').value;
+  const payment  = d.PaymentMethod || '';
+  const tenure   = parseFloat(d.tenure) || 0;
+  const monthly  = parseFloat(d.MonthlyCharges) || 0;
+
+  if (contract === 'Month-to-month')
+    recs.push({ title:'Offer a contract upgrade incentive', desc:'Month-to-month customers are the highest-risk segment. A 10–15% discount for committing to a 1-year plan significantly reduces churn probability.' });
+  if (security === 'No')
+    recs.push({ title:'Bundle Online Security as a free trial', desc:'Customers without security add-ons churn at 2.4× the rate. A 3-month free trial creates product stickiness and increases perceived value.' });
+  if (techsup === 'No')
+    recs.push({ title:'Activate a proactive Tech Support check-in', desc:'A short support call proactively resolves hidden frustrations before they become cancellation decisions.' });
+  if (payment === 'Electronic check')
+    recs.push({ title:'Encourage automatic payment setup', desc:'Manual payment customers churn more frequently. Offer a small bill credit to switch to auto-pay — it also reduces late payment risk.' });
+  if (tenure < 12)
+    recs.push({ title:'Launch a first-year loyalty programme', desc:'Customers in their first 12 months are most vulnerable. A structured milestone reward at 3, 6, and 12 months dramatically improves retention.' });
+  if (monthly > 70)
+    recs.push({ title:'Review billing and offer a loyalty rate', desc:'High monthly charges increase price sensitivity. A personalised retention offer — even $5–10 off — can reset satisfaction and rebuild loyalty.' });
+  if (!churn)
+    recs.push({ title:'Celebrate their loyalty milestone', desc:`At ${d.tenure} months, a "valued customer" acknowledgement or small reward reinforces positive sentiment and discourages passive churn.` });
+
+  return recs.slice(0, 4);
+}
+
+</script>
+</body>
+</html>
